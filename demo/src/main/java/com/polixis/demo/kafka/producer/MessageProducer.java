@@ -1,15 +1,20 @@
 package com.polixis.demo.kafka.producer;
 
+import com.polixis.demo.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MessageProducer {
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Message> kafkaTemplate;
 
-    public void sendMessage(String topic, String message) {
+    @Autowired
+    public MessageProducer(KafkaTemplate<String, Message> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void sendMessage(String topic, Message message) {
         kafkaTemplate.send(topic, message);
     }
 }
